@@ -43,7 +43,8 @@ export default function AddPage() {
       setSeed({
         roaster: data.roaster,
         name: data.name,
-        origin: data.origin,
+        country: data.country,
+        region: data.region,
         producer: data.producer,
         variety: data.variety,
         process: data.process,

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSupabase } from "@/lib/supabase";
-import type { Coffee, Brew } from "@/lib/types";
+import { coffeeCountry, coffeeRegion } from "@/lib/format";
+import type { Coffee, Brew, Verdict } from "@/lib/types";
 
 export const runtime = "nodejs";
 
@@ -16,7 +17,7 @@ interface Group {
 interface Rated {
   group: string | null | undefined;
   rating: number | null;
-  liked: boolean | null;
+  verdict: Verdict | null;
 }
 
 function aggregate(rows: Rated[]): Group[] {
@@ -35,9 +36,9 @@ function aggregate(rows: Rated[]): Group[] {
       g.ratingSum += r.rating;
       g.ratingCount += 1;
     }
-    if (r.liked === true || r.liked === false) {
+    if (r.verdict === 1 || r.verdict === 0 || r.verdict === -1) {
       g.likeCount += 1;
-      if (r.liked) g.likeYes += 1;
+      if (r.verdict === 1) g.likeYes += 1;
     }
     map.set(key, g);
   }
@@ -52,7 +53,6 @@ function aggregate(rows: Rated[]): Group[] {
       likeCount: g.likeCount,
     });
   }
-  // Sort: highest avg rating first, then most samples.
   out.sort((a, b) => {
     const ar = a.avgRating ?? -1;
     const br = b.avgRating ?? -1;
@@ -81,30 +81,29 @@ export async function GET() {
     coffees.map((c) => ({
       group: c[key] as string | null,
       rating: c.rating,
-      liked: c.liked,
+      verdict: c.verdict,
     }));
 
   return NextResponse.json({
     totals: { coffees: coffees.length, brews: brews.length },
-    byProcess: aggregate(coffeeRated("process")),
-    // Origins are comma-separated for blends — count each country separately.
-    byOrigin: aggregate(
+    // Country (comma-split for blends), region, process, roast, purpose, drink.
+    byCountry: aggregate(
       coffees.flatMap((c) =>
-        (c.origin ?? "")
+        (coffeeCountry(c) ?? "")
           .split(",")
-          .map((o) => o.trim())
+          .map((x) => x.trim())
           .filter(Boolean)
-          .map((o) => ({ group: o, rating: c.rating, liked: c.liked })),
+          .map((x) => ({ group: x, rating: c.rating, verdict: c.verdict })),
       ),
     ),
+    byRegion: aggregate(
+      coffees.map((c) => ({ group: coffeeRegion(c), rating: c.rating, verdict: c.verdict })),
+    ),
+    byProcess: aggregate(coffeeRated("process")),
     byRoast: aggregate(coffeeRated("roast_level")),
     byPurpose: aggregate(coffeeRated("roast_purpose")),
     byDrink: aggregate(
-      brews.map((b) => ({
-        group: b.drink_type,
-        rating: b.rating,
-        liked: b.liked,
-      })),
+      brews.map((b) => ({ group: b.drink_type, rating: b.rating, verdict: b.verdict })),
     ),
   });
 }

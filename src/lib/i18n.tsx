@@ -66,6 +66,8 @@ const DICT: Dict = {
   f_roaster: { es: "Tostador", en: "Roaster" },
   f_name: { es: "Nombre del café", en: "Coffee name" },
   f_origin: { es: "Origen", en: "Origin" },
+  f_country: { es: "País", en: "Country" },
+  f_region: { es: "Región", en: "Region" },
   f_producer: { es: "Productor / finca", en: "Producer / farm" },
   f_variety: { es: "Variedad", en: "Variety" },
   f_process: { es: "Proceso", en: "Process" },
@@ -104,6 +106,7 @@ const DICT: Dict = {
 
   // ratings
   liked_yes: { es: "Me gustó", en: "Liked" },
+  liked_neutral: { es: "Normal", en: "Okay" },
   liked_no: { es: "No me gustó", en: "Disliked" },
 
   // coffee detail
@@ -152,6 +155,8 @@ const DICT: Dict = {
   },
   stats_by_process: { es: "Por proceso", en: "By process" },
   stats_by_origin: { es: "Por origen", en: "By origin" },
+  stats_by_country: { es: "Por país", en: "By country" },
+  stats_by_region: { es: "Por región", en: "By region" },
   stats_by_roast: { es: "Por tueste", en: "By roast level" },
   stats_by_purpose: { es: "Por tipo de tueste", en: "By roast purpose" },
   stats_by_drink: { es: "Por bebida", en: "By drink" },

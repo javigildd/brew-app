@@ -18,7 +18,15 @@ export default function HomePage() {
   const coffees = data ?? [];
   const filtered = coffees.filter((c) => {
     if (!q.trim()) return true;
-    const hay = [c.name, c.roaster, c.origin, c.process, (c.tasting_notes ?? []).join(" ")]
+    const hay = [
+      c.name,
+      c.roaster,
+      c.country,
+      c.region,
+      c.origin,
+      c.process,
+      (c.tasting_notes ?? []).join(" "),
+    ]
       .join(" ")
       .toLowerCase();
     return hay.includes(q.toLowerCase());

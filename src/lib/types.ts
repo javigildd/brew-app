@@ -2,13 +2,18 @@
 
 export type Lang = "es" | "en";
 
+// Three-state rating: 1 = liked, 0 = neutral/okay, -1 = disliked, null = unrated.
+export type Verdict = -1 | 0 | 1;
+
 export interface Coffee {
   id: string;
   created_at: string;
   date_added: string;
   roaster: string | null;
   name: string | null;
-  origin: string | null;
+  origin: string | null; // legacy combined "country, region" (kept for old rows)
+  country: string | null;
+  region: string | null;
   producer: string | null;
   variety: string | null;
   process: string | null;
@@ -22,7 +27,7 @@ export interface Coffee {
   currency: string | null;
   photo_url: string | null;
   rating: number | null;
-  liked: boolean | null;
+  verdict: Verdict | null;
   comments: string | null;
 }
 
@@ -50,7 +55,7 @@ export interface Brew {
   recipe_id: string | null;
   brew_date: string;
   drink_type: DrinkType | null;
-  liked: boolean | null;
+  verdict: Verdict | null;
   rating: number | null;
   notes: string | null;
 }

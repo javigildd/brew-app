@@ -8,6 +8,7 @@ import {
   PROCESS_SUGGESTIONS,
   type RoastLevel,
   type RoastPurpose,
+  type Verdict,
 } from "@/lib/types";
 import type { CoffeeInput } from "@/lib/validation";
 import { Stars, LikeButtons } from "./Rating";
@@ -43,7 +44,8 @@ export default function CoffeeForm({
   }, []);
   const [roaster, setRoaster] = useState(d.roaster ?? "");
   const [name, setName] = useState(d.name ?? "");
-  const [origin, setOrigin] = useState(d.origin ?? "");
+  const [country, setCountry] = useState(d.country ?? "");
+  const [region, setRegion] = useState(d.region ?? "");
   const [producer, setProducer] = useState(d.producer ?? "");
   const [variety, setVariety] = useState(d.variety ?? "");
   const [process, setProcess] = useState(d.process ?? "");
@@ -62,7 +64,7 @@ export default function CoffeeForm({
   const [price, setPrice] = useState(d.price != null ? String(d.price) : "");
   const [currency, setCurrency] = useState(d.currency ?? "EUR");
   const [rating, setRating] = useState<number | null>(d.rating ?? null);
-  const [liked, setLiked] = useState<boolean | null>(d.liked ?? null);
+  const [verdict, setVerdict] = useState<Verdict | null>(d.verdict ?? null);
   const [comments, setComments] = useState(d.comments ?? "");
   const [busy, setBusy] = useState(false);
 
@@ -74,7 +76,11 @@ export default function CoffeeForm({
         date_added: dateAdded,
         roaster: roaster || null,
         name: name || null,
-        origin: origin || null,
+        country: country.trim() || null,
+        region: region.trim() || null,
+        // keep the legacy combined field in sync for search / old readers
+        origin:
+          [country.trim(), region.trim()].filter(Boolean).join(", ") || null,
         producer: producer || null,
         variety: variety || null,
         process: process || null,
@@ -90,7 +96,7 @@ export default function CoffeeForm({
         price: numOrNull(price),
         currency: currency.trim() || null,
         rating,
-        liked,
+        verdict,
         comments: comments || null,
       });
     } finally {
@@ -109,9 +115,13 @@ export default function CoffeeForm({
           <label className="label">{t("f_name")}</label>
           <input className="input" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
-        <div className="col-span-2">
-          <label className="label">{t("f_origin")}</label>
-          <input className="input" value={origin} onChange={(e) => setOrigin(e.target.value)} />
+        <div>
+          <label className="label">{t("f_country")}</label>
+          <input className="input" value={country} onChange={(e) => setCountry(e.target.value)} />
+        </div>
+        <div>
+          <label className="label">{t("f_region")}</label>
+          <input className="input" value={region} onChange={(e) => setRegion(e.target.value)} />
         </div>
         <div>
           <label className="label">{t("f_producer")}</label>
@@ -242,7 +252,7 @@ export default function CoffeeForm({
         </div>
         <div>
           <label className="label">{t("f_liked")}</label>
-          <LikeButtons value={liked} onChange={setLiked} />
+          <LikeButtons value={verdict} onChange={setVerdict} />
         </div>
         <div>
           <label className="label">{t("f_comments")}</label>

@@ -13,7 +13,9 @@ create table if not exists public.coffees (
   date_added      date not null default current_date,   -- when you logged it
   roaster         text,
   name            text,
-  origin          text,                                  -- country / region (comma-separated for blends)
+  origin          text,                                  -- legacy combined "country, region" (old rows)
+  country         text,                                  -- country of origin
+  region          text,                                  -- growing region within the country
   producer        text,                                  -- farm / producer / co-op
   variety         text,                                  -- e.g. Caturra, Geisha
   process         text,                                  -- Washed, Natural, Honey, Anaerobic...
@@ -27,7 +29,8 @@ create table if not exists public.coffees (
   currency        text default 'EUR',
   photo_url       text,
   rating          smallint,                              -- overall 1..5 (nullable)
-  liked           boolean,                               -- quick thumbs up/down (nullable)
+  liked           boolean,                               -- legacy thumbs (use verdict)
+  verdict         smallint,                              -- 1 liked / 0 neutral / -1 disliked / null
   comments        text
 );
 
@@ -57,7 +60,8 @@ create table if not exists public.brews (
   recipe_id       uuid references public.recipes(id) on delete set null,
   brew_date       date not null default current_date,
   drink_type      text,                                  -- espresso | filter | cortado | flatwhite | latte | cappuccino | americano | coldbrew | icedlatte | other
-  liked           boolean,                               -- liked / disliked
+  liked           boolean,                               -- legacy thumbs (use verdict)
+  verdict         smallint,                              -- 1 liked / 0 neutral / -1 disliked / null
   rating          smallint,                              -- optional 1..5
   notes           text
 );

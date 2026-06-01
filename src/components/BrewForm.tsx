@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n";
-import { DRINK_TYPES, type DrinkType, type Recipe } from "@/lib/types";
+import { DRINK_TYPES, type DrinkType, type Recipe, type Verdict } from "@/lib/types";
 import type { BrewInput } from "@/lib/validation";
 import { Stars, LikeButtons } from "./Rating";
 import { todayISO } from "@/lib/format";
@@ -31,7 +31,7 @@ export default function BrewForm({
     (d.drink_type as DrinkType) ?? "",
   );
   const [recipeId, setRecipeId] = useState(d.recipe_id ?? "");
-  const [liked, setLiked] = useState<boolean | null>(d.liked ?? null);
+  const [verdict, setVerdict] = useState<Verdict | null>(d.verdict ?? null);
   const [rating, setRating] = useState<number | null>(d.rating ?? null);
   const [notes, setNotes] = useState(d.notes ?? "");
   const [busy, setBusy] = useState(false);
@@ -45,7 +45,7 @@ export default function BrewForm({
         brew_date: brewDate,
         drink_type: drinkType || null,
         recipe_id: recipeId || null,
-        liked,
+        verdict,
         rating,
         notes: notes || null,
       });
@@ -101,7 +101,7 @@ export default function BrewForm({
       ) : null}
       <div>
         <label className="label">{t("f_liked")}</label>
-        <LikeButtons value={liked} onChange={setLiked} size="sm" />
+        <LikeButtons value={verdict} onChange={setVerdict} size="sm" />
       </div>
       <div>
         <label className="label">{t("f_rating")}</label>

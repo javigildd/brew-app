@@ -24,8 +24,9 @@ interface Group {
 }
 interface Stats {
   totals: { coffees: number; brews: number };
+  byCountry: Group[];
+  byRegion: Group[];
   byProcess: Group[];
-  byOrigin: Group[];
   byRoast: Group[];
   byPurpose: Group[];
   byDrink: Group[];
@@ -94,8 +95,9 @@ export default function StatsPage() {
 
   const hasData =
     data &&
-    (data.byProcess.length ||
-      data.byOrigin.length ||
+    (data.byCountry.length ||
+      data.byRegion.length ||
+      data.byProcess.length ||
       data.byRoast.length ||
       data.byPurpose.length ||
       data.byDrink.length);
@@ -134,7 +136,8 @@ export default function StatsPage() {
             </div>
           ) : null}
           <div className="grid gap-4 lg:grid-cols-2">
-            <GroupList title={t("stats_by_origin")} items={data!.byOrigin} />
+            <GroupList title={t("stats_by_country")} items={data!.byCountry} />
+            <GroupList title={t("stats_by_region")} items={data!.byRegion} />
             <GroupList title={t("stats_by_process")} items={data!.byProcess} />
             <GroupList
               title={t("stats_by_roast")}

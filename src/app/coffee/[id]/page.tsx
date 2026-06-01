@@ -11,7 +11,8 @@ import RecipeForm from "@/components/RecipeForm";
 import { Stars, LikeBadge } from "@/components/Rating";
 import { fetcher, apiSend } from "@/lib/client";
 import { useI18n } from "@/lib/i18n";
-import { formatDate, formatTime, ratio } from "@/lib/format";
+import { formatDate, formatTime, ratio, coffeeCountry, coffeeRegion } from "@/lib/format";
+import { CHIP_BASE, countryColor, processColor, roastColor } from "@/lib/colors";
 import {
   ROAST_LEVELS,
   ROAST_PURPOSES,
@@ -61,6 +62,8 @@ export default function CoffeeDetailPage() {
   }
 
   const { coffee, brews, recipes } = data;
+  const country = coffeeCountry(coffee);
+  const region = coffeeRegion(coffee);
 
   const saveCoffee = async (values: CoffeeFormValues) => {
     await apiSend(`/api/coffees/${id}`, "PATCH", values);
@@ -101,7 +104,8 @@ export default function CoffeeDetailPage() {
       date_added: coffee.date_added,
       roaster: coffee.roaster,
       name: coffee.name,
-      origin: coffee.origin,
+      country,
+      region,
       producer: coffee.producer,
       variety: coffee.variety,
       process: coffee.process,
@@ -114,7 +118,7 @@ export default function CoffeeDetailPage() {
       price: coffee.price,
       currency: coffee.currency,
       rating: coffee.rating,
-      liked: coffee.liked,
+      verdict: coffee.verdict,
       comments: coffee.comments,
     };
     return (
@@ -163,7 +167,7 @@ export default function CoffeeDetailPage() {
             </div>
             <div className="flex flex-col items-end gap-1">
               {coffee.rating ? <Stars value={coffee.rating} readOnly /> : null}
-              <LikeBadge value={coffee.liked} />
+              <LikeBadge value={coffee.verdict} />
             </div>
           </div>
 
@@ -177,8 +181,26 @@ export default function CoffeeDetailPage() {
             </div>
           ) : null}
 
+          {/* Color-coded categories: country / process / roast */}
+          <div className="flex flex-wrap gap-1.5">
+            {country ? (
+              <span className={`${CHIP_BASE} ${countryColor(country)}`}>{country}</span>
+            ) : null}
+            {coffee.process ? (
+              <span className={`${CHIP_BASE} ${processColor(coffee.process)}`}>
+                {coffee.process}
+              </span>
+            ) : null}
+            {coffee.roast_level ? (
+              <span className={`${CHIP_BASE} ${roastColor(coffee.roast_level)}`}>
+                {optLabel(ROAST_LEVELS, coffee.roast_level, lang)}
+              </span>
+            ) : null}
+          </div>
+
           <div className="rounded-lg bg-sand/40 p-3">
-            <Row label={t("f_origin")} value={coffee.origin} />
+            <Row label={t("f_country")} value={country} />
+            <Row label={t("f_region")} value={region} />
             <Row label={t("f_producer")} value={coffee.producer} />
             <Row label={t("f_variety")} value={coffee.variety} />
             <Row label={t("f_process")} value={coffee.process} />
@@ -335,7 +357,7 @@ export default function CoffeeDetailPage() {
                   </div>
                 </div>
                 <div className="mt-1 flex flex-wrap items-center gap-2">
-                  <LikeBadge value={b.liked} />
+                  <LikeBadge value={b.verdict} />
                   {recipe ? (
                     <span className="chip">
                       {recipe.name || optLabel(BREW_METHODS, recipe.method, lang)}

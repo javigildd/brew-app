@@ -1,4 +1,26 @@
-import type { Lang } from "./types";
+import type { Lang, Coffee } from "./types";
+
+// Split a legacy "Country, Region" origin string.
+export function splitOrigin(origin: string | null | undefined): {
+  country: string | null;
+  region: string | null;
+} {
+  if (!origin) return { country: null, region: null };
+  const idx = origin.indexOf(",");
+  if (idx < 0) return { country: origin.trim() || null, region: null };
+  return {
+    country: origin.slice(0, idx).trim() || null,
+    region: origin.slice(idx + 1).trim() || null,
+  };
+}
+
+// Prefer the dedicated columns; fall back to parsing the legacy origin string.
+export function coffeeCountry(c: Pick<Coffee, "country" | "origin">): string | null {
+  return c.country || splitOrigin(c.origin).country;
+}
+export function coffeeRegion(c: Pick<Coffee, "region" | "origin">): string | null {
+  return c.region || splitOrigin(c.origin).region;
+}
 
 export function ratio(dose: number | null, yield_: number | null): string {
   if (!dose || !yield_ || dose <= 0) return "";

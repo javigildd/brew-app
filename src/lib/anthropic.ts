@@ -24,7 +24,8 @@ export type ImageMediaType =
 export interface ExtractedCoffee {
   roaster: string | null;
   name: string | null;
-  origin: string | null;
+  country: string | null;
+  region: string | null;
   producer: string | null;
   variety: string | null;
   process: string | null;
@@ -42,7 +43,8 @@ Rules:
 - Only use information that is actually visible on the package. Do NOT invent or guess.
 - If a field is not present, return null for it (or an empty array for tasting_notes).
 - Keep brand names, coffee names, origins and producer names exactly as printed (do not translate them).
-- "origin" is the country and/or region (e.g. "Ethiopia, Yirgacheffe"). For blends, list the origins comma-separated.
+- "country" is the country of origin only (e.g. "Ethiopia", "Colombia"). For a blend, list the countries comma-separated.
+- "region" is the growing region / area / department within the country (e.g. "Yirgacheffe", "Huila"), NOT the country. Null if not printed.
 - "process" is the processing method (e.g. Washed, Natural, Honey, Anaerobic).
 - "tasting_notes" is an array of short flavour notes printed on the bag (e.g. ["chocolate", "orange", "caramel"]).
 - "roast_level" must be one of: light, medium-light, medium, medium-dark, dark — infer the closest from any printed roast description; null if nothing indicates it.
@@ -61,9 +63,13 @@ const tool: Anthropic.Tool = {
     properties: {
       roaster: { type: ["string", "null"], description: "Roaster / brand name" },
       name: { type: ["string", "null"], description: "Coffee name" },
-      origin: {
+      country: {
         type: ["string", "null"],
-        description: "Country and/or region of origin",
+        description: "Country of origin only (comma-separated for blends)",
+      },
+      region: {
+        type: ["string", "null"],
+        description: "Growing region/area within the country (not the country)",
       },
       producer: {
         type: ["string", "null"],
@@ -115,7 +121,8 @@ const nullableStr = z
 const schema = z.object({
   roaster: nullableStr,
   name: nullableStr,
-  origin: nullableStr,
+  country: nullableStr,
+  region: nullableStr,
   producer: nullableStr,
   variety: nullableStr,
   process: nullableStr,

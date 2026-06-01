@@ -47,12 +47,19 @@ const dateField = z.preprocess(
 const nullableInt = z.number().int().nullable().optional();
 const nullableNum = z.number().nullable().optional();
 const rating = z.number().int().min(1).max(5).nullable().optional();
+// 1 liked / 0 neutral / -1 disliked / null unrated
+const verdictField = z
+  .union([z.literal(-1), z.literal(0), z.literal(1)])
+  .nullable()
+  .optional();
 
 export const coffeeInput = z.object({
   date_added: dateField,
   roaster: str,
   name: str,
   origin: str,
+  country: str,
+  region: str,
   producer: str,
   variety: str,
   process: str,
@@ -65,7 +72,7 @@ export const coffeeInput = z.object({
   price: nullableNum,
   currency: z.string().max(8).nullable().optional(),
   rating,
-  liked: z.boolean().nullable().optional(),
+  verdict: verdictField,
   comments: str,
 });
 
@@ -93,7 +100,7 @@ export const brewInput = z.object({
   recipe_id: z.string().uuid().nullable().optional(),
   brew_date: dateField,
   drink_type: drinkType.optional(),
-  liked: z.boolean().nullable().optional(),
+  verdict: verdictField,
   rating,
   notes: str,
 });
