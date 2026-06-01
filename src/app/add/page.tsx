@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Camera } from "lucide-react";
 import AppShell from "@/components/AppShell";
 import CoffeeForm, { type CoffeeFormValues } from "@/components/CoffeeForm";
 import { useI18n } from "@/lib/i18n";
@@ -110,15 +111,17 @@ export default function AddPage() {
               </button>
             )}
             {extractError ? (
-              <p className="text-center text-sm text-terracotta">
+              <p className="text-center text-sm text-danger">
                 {t("add_extract_error")}
               </p>
             ) : null}
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-3 py-4 text-center">
-            <span className="text-4xl">📷</span>
-            <p className="text-sm text-coffee/70">{t("add_take_photo")}</p>
+          <div className="flex flex-col items-center gap-3 py-6 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-sand text-coffee">
+              <Camera size={28} />
+            </div>
+            <p className="text-sm text-muted">{t("add_take_photo")}</p>
             <button
               type="button"
               className="btn-accent"
@@ -126,7 +129,7 @@ export default function AddPage() {
             >
               {t("add_choose_photo")}
             </button>
-            <p className="text-xs text-coffee/50">{t("add_no_photo_note")}</p>
+            <p className="text-xs text-muted/70">{t("add_no_photo_note")}</p>
           </div>
         )}
       </div>

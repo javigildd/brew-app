@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Snowflake } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { BREW_METHODS, MILK_TYPES, type BrewMethod, type MilkType } from "@/lib/types";
 import type { RecipeInput } from "@/lib/validation";
@@ -141,9 +142,9 @@ export default function RecipeForm({
             type="checkbox"
             checked={ice}
             onChange={(e) => setIce(e.target.checked)}
-            className="h-4 w-4 accent-coffee"
+            className="h-4 w-4 accent-accent"
           />
-          {t("r_ice")} 🧊
+          <Snowflake size={15} /> {t("r_ice")}
         </label>
       </div>
       <div>

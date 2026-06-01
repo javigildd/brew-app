@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Coffee as CoffeeIcon } from "lucide-react";
 import type { Coffee } from "@/lib/types";
 import { ROAST_LEVELS, ROAST_PURPOSES, optLabel } from "@/lib/types";
 import { useI18n } from "@/lib/i18n";
@@ -22,8 +23,8 @@ export default function CoffeeCard({ coffee }: { coffee: Coffee }) {
             className="h-full w-full object-cover"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-2xl text-coffee/40">
-            ☕
+          <div className="flex h-full w-full items-center justify-center text-muted/50">
+            <CoffeeIcon size={28} />
           </div>
         )}
       </div>

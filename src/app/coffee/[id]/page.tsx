@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import useSWR from "swr";
+import { ChevronLeft, Pencil, Milk, Snowflake } from "lucide-react";
 import AppShell from "@/components/AppShell";
 import CoffeeForm, { type CoffeeFormValues } from "@/components/CoffeeForm";
 import BrewForm from "@/components/BrewForm";
@@ -133,8 +134,11 @@ export default function CoffeeDetailPage() {
 
   return (
     <AppShell>
-      <button onClick={() => router.push("/")} className="mb-3 text-sm text-coffee/70">
-        ← {t("back")}
+      <button
+        onClick={() => router.push("/")}
+        className="mb-3 inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-espresso"
+      >
+        <ChevronLeft size={16} /> {t("back")}
       </button>
 
       {/* Header */}
@@ -212,9 +216,9 @@ export default function CoffeeDetailPage() {
 
           <div className="flex gap-2 pt-1">
             <button onClick={() => setEditing(true)} className="btn-outline flex-1">
-              ✎ {t("edit")}
+              <Pencil size={15} /> {t("edit")}
             </button>
-            <button onClick={deleteCoffee} className="btn-ghost text-terracotta">
+            <button onClick={deleteCoffee} className="btn-ghost text-danger hover:bg-danger/10">
               {t("delete")}
             </button>
           </div>
@@ -250,7 +254,7 @@ export default function CoffeeDetailPage() {
                 <span className="font-semibold text-espresso">
                   {r.name || optLabel(BREW_METHODS, r.method, lang) || t("detail_recipes")}
                 </span>
-                <button onClick={() => delRecipe(r)} className="text-xs text-terracotta">
+                <button onClick={() => delRecipe(r)} className="text-xs font-medium text-danger">
                   {t("delete")}
                 </button>
               </div>
@@ -265,11 +269,15 @@ export default function CoffeeDetailPage() {
                 {r.time_seconds ? <span className="chip">{formatTime(r.time_seconds)}</span> : null}
                 {r.grind ? <span className="chip">{r.grind}</span> : null}
                 {r.milk_ml ? (
-                  <span className="chip">
-                    🥛 {r.milk_ml}ml {optLabel(MILK_TYPES, r.milk_type, lang)}
+                  <span className="chip gap-1">
+                    <Milk size={12} /> {r.milk_ml}ml {optLabel(MILK_TYPES, r.milk_type, lang)}
                   </span>
                 ) : null}
-                {r.ice ? <span className="chip">🧊</span> : null}
+                {r.ice ? (
+                  <span className="chip gap-1">
+                    <Snowflake size={12} /> {t("r_ice")}
+                  </span>
+                ) : null}
               </div>
               {r.notes ? <p className="mt-1 text-coffee/70">{r.notes}</p> : null}
             </div>
@@ -316,7 +324,7 @@ export default function CoffeeDetailPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     {b.rating ? <Stars value={b.rating} readOnly /> : null}
-                    <button onClick={() => delBrew(b)} className="text-xs text-terracotta">
+                    <button onClick={() => delBrew(b)} className="text-xs font-medium text-danger">
                       {t("delete")}
                     </button>
                   </div>

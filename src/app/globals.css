@@ -2,44 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Design tokens (Soft UI Evolution): warm journal brown + ink violet ── */
 :root {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, Cambria, "Times New Roman", serif;
+
+  --bg: 255 251 235; /* #FFFBEB warm cream */
+  --surface: 255 255 255; /* cards */
+  --surface-2: 245 240 233; /* muted inset */
+  --border: 233 224 213;
+  --fg: 28 25 23; /* near-black */
+  --muted: 110 99 90; /* secondary text */
+  --brand: 146 64 14; /* #92400E */
+  --accent: 79 70 229; /* indigo-600 */
+  --accent-fg: 255 255 255;
+  --positive: 21 128 61;
+  --danger: 220 38 38;
+  --star: 217 119 6;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: 24 19 15; /* warm near-black */
+  --surface: 33 26 21;
+  --surface-2: 43 34 27;
+  --border: 58 47 38;
+  --fg: 245 239 232;
+  --muted: 178 164 151;
+  --brand: 214 150 92; /* lighter caramel for dark */
+  --accent: 129 140 248; /* indigo-400 */
+  --accent-fg: 24 19 15;
+  --positive: 74 184 120;
+  --danger: 248 113 113;
+  --star: 230 168 70;
+  color-scheme: dark;
 }
 
 html,
 body {
-  background-color: theme("colors.cream");
-  color: theme("colors.espresso");
+  background-color: rgb(var(--bg));
+  color: rgb(var(--fg));
   -webkit-font-smoothing: antialiased;
+}
+
+body {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-primary {
-    @apply btn bg-coffee text-cream hover:bg-espresso;
+    @apply btn bg-coffee text-cream hover:opacity-90;
   }
   .btn-accent {
-    @apply btn bg-terracotta text-cream hover:brightness-95;
+    @apply btn bg-accent text-accentfg hover:opacity-90;
   }
   .btn-ghost {
     @apply btn bg-transparent text-coffee hover:bg-sand;
   }
   .btn-outline {
-    @apply btn border border-crema bg-white/60 text-espresso hover:bg-sand;
+    @apply btn border border-crema bg-surface text-espresso hover:bg-sand;
   }
   .card {
-    @apply rounded-xl2 bg-white shadow-card border border-crema/60;
+    @apply rounded-xl2 border border-crema bg-surface shadow-card;
   }
   .label {
-    @apply block text-xs font-semibold uppercase tracking-wide text-coffee/70 mb-1;
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted;
   }
   .input {
-    @apply w-full rounded-lg border border-crema bg-white px-3 py-2 text-sm text-espresso outline-none focus:border-coffee focus:ring-2 focus:ring-coffee/20 placeholder:text-espresso/30;
+    @apply w-full rounded-xl border border-crema bg-surface px-3.5 py-2.5 text-sm text-espresso outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/25 placeholder:text-muted/60;
   }
   .chip {
-    @apply inline-flex items-center rounded-full bg-sand px-2.5 py-1 text-xs font-medium text-coffee;
+    @apply inline-flex items-center rounded-full bg-sand px-2.5 py-1 text-xs font-medium text-muted;
+  }
+  .icon-btn {
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-full text-muted transition hover:bg-sand hover:text-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

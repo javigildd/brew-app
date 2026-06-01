@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import useSWR from "swr";
+import { Coffee as CoffeeIcon, Search } from "lucide-react";
 import AppShell from "@/components/AppShell";
 import CoffeeCard from "@/components/CoffeeCard";
 import { fetcher } from "@/lib/client";
@@ -28,21 +29,29 @@ export default function HomePage() {
       {isLoading ? (
         <p className="py-10 text-center text-coffee/60">{t("loading")}</p>
       ) : coffees.length === 0 ? (
-        <div className="flex flex-col items-center gap-4 py-16 text-center">
-          <span className="text-5xl">☕</span>
-          <p className="max-w-xs text-coffee/70">{t("home_empty")}</p>
+        <div className="flex flex-col items-center gap-4 py-16 text-center animate-fade-in">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-sand text-coffee">
+            <CoffeeIcon size={36} />
+          </div>
+          <p className="max-w-xs text-muted">{t("home_empty")}</p>
           <Link href="/add" className="btn-accent">
             {t("home_add_first")}
           </Link>
         </div>
       ) : (
         <div className="space-y-4">
-          <input
-            className="input"
-            placeholder={t("search_placeholder")}
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-          />
+          <div className="relative">
+            <Search
+              size={16}
+              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
+            />
+            <input
+              className="input pl-10"
+              placeholder={t("search_placeholder")}
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+            />
+          </div>
           <div className="space-y-3">
             {filtered.map((c) => (
               <CoffeeCard key={c.id} coffee={c} />

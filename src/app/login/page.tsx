@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/lib/i18n";
 import LangToggle from "@/components/LangToggle";
+import { ThemeToggle } from "@/components/ThemeProvider";
 
 export default function LoginPage() {
   const { t } = useI18n();
@@ -32,8 +33,9 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6">
-      <div className="absolute right-4 top-4">
+      <div className="absolute right-4 top-4 flex items-center gap-1.5">
         <LangToggle />
+        <ThemeToggle />
       </div>
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
@@ -52,9 +54,7 @@ export default function LoginPage() {
             />
           </div>
           {error ? (
-            <p className="text-sm font-medium text-terracotta">
-              {t("login_error")}
-            </p>
+            <p className="text-sm font-medium text-danger">{t("login_error")}</p>
           ) : null}
           <button type="submit" className="btn-primary w-full" disabled={busy}>
             {busy ? "…" : t("login_button")}

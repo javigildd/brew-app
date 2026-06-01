@@ -1,6 +1,7 @@
 "use client";
 
 import useSWR from "swr";
+import { Star, ThumbsUp } from "lucide-react";
 import AppShell from "@/components/AppShell";
 import { fetcher } from "@/lib/client";
 import { useI18n } from "@/lib/i18n";
@@ -52,23 +53,25 @@ function GroupList({
             <div key={g.key}>
               <div className="flex items-center justify-between text-sm">
                 <span className="font-medium text-espresso">{label}</span>
-                <span className="text-coffee/70">
+                <span className="flex items-center gap-2 text-muted">
                   {g.avgRating != null ? (
-                    <span className="font-semibold text-terracotta">
-                      ★ {g.avgRating.toFixed(1)}
+                    <span className="inline-flex items-center gap-1 font-semibold text-star">
+                      <Star size={13} fill="currentColor" /> {g.avgRating.toFixed(1)}
                     </span>
                   ) : null}
                   {g.likePct != null ? (
-                    <span className="ml-2">👍 {Math.round(g.likePct)}%</span>
+                    <span className="inline-flex items-center gap-1">
+                      <ThumbsUp size={13} /> {Math.round(g.likePct)}%
+                    </span>
                   ) : null}
-                  <span className="ml-2 text-xs text-coffee/40">
+                  <span className="text-xs text-muted/60">
                     {g.count} {t("stats_count")}
                   </span>
                 </span>
               </div>
-              <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-sand">
+              <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-sand">
                 <div
-                  className="h-full rounded-full bg-terracotta/70"
+                  className="h-full rounded-full bg-accent/70"
                   style={{ width: `${Math.max(4, Math.min(100, pct))}%` }}
                 />
               </div>
