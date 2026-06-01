@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import useSWR from "swr";
-import { Coffee as CoffeeIcon, Search } from "lucide-react";
+import { Coffee as CoffeeIcon, Search, Plus } from "lucide-react";
 import AppShell from "@/components/AppShell";
 import CoffeeCard from "@/components/CoffeeCard";
 import { fetcher } from "@/lib/client";
@@ -30,7 +30,7 @@ export default function HomePage() {
         <p className="py-10 text-center text-coffee/60">{t("loading")}</p>
       ) : coffees.length === 0 ? (
         <div className="flex flex-col items-center gap-4 py-16 text-center animate-fade-in">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-sand text-coffee">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-accent/10 text-accent">
             <CoffeeIcon size={36} />
           </div>
           <p className="max-w-xs text-muted">{t("home_empty")}</p>
@@ -39,7 +39,20 @@ export default function HomePage() {
           </Link>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-5">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h1 className="font-serif text-2xl font-bold text-espresso lg:text-3xl">
+                {t("nav_home")}
+              </h1>
+              <p className="text-sm text-muted">
+                {coffees.length} {t("stats_total_coffees")}
+              </p>
+            </div>
+            <Link href="/add" className="btn-accent hidden lg:inline-flex">
+              <Plus size={16} /> {t("nav_add")}
+            </Link>
+          </div>
           <div className="relative">
             <Search
               size={16}
@@ -52,7 +65,7 @@ export default function HomePage() {
               onChange={(e) => setQ(e.target.value)}
             />
           </div>
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {filtered.map((c) => (
               <CoffeeCard key={c.id} coffee={c} />
             ))}

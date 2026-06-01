@@ -93,7 +93,7 @@ export default function RecipeForm({
         <div className="flex items-end">
           <div className="w-full">
             <label className="label">{t("r_ratio")}</label>
-            <div className="input flex items-center bg-sand/50 font-semibold text-coffee">
+            <div className="input flex items-center bg-sand/50 font-semibold text-accent">
               {liveRatio || "—"}
             </div>
           </div>

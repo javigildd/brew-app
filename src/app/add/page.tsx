@@ -78,7 +78,9 @@ export default function AddPage() {
         {t("add_title")}
       </h1>
 
-      <div className="card mb-5 p-4">
+      <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
+        <div className="mb-5 lg:mb-0 lg:sticky lg:top-6">
+          <div className="card p-4">
         <input
           ref={fileRef}
           type="file"
@@ -118,7 +120,7 @@ export default function AddPage() {
           </div>
         ) : (
           <div className="flex flex-col items-center gap-3 py-6 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-sand text-coffee">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 text-accent">
               <Camera size={28} />
             </div>
             <p className="text-sm text-muted">{t("add_take_photo")}</p>
@@ -132,14 +134,17 @@ export default function AddPage() {
             <p className="text-xs text-muted/70">{t("add_no_photo_note")}</p>
           </div>
         )}
+          </div>
+        </div>
+        <div>
+          <CoffeeForm
+            key={seedKey}
+            defaultValue={seed}
+            submitLabel={t("save")}
+            onSubmit={save}
+          />
+        </div>
       </div>
-
-      <CoffeeForm
-        key={seedKey}
-        defaultValue={seed}
-        submitLabel={t("save")}
-        onSubmit={save}
-      />
     </AppShell>
   );
 }

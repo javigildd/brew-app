@@ -229,7 +229,7 @@ export default function CoffeeForm({
             type="checkbox"
             checked={decaf}
             onChange={(e) => setDecaf(e.target.checked)}
-            className="h-4 w-4 accent-coffee"
+            className="h-4 w-4 accent-accent"
           />
           {t("f_decaf")}
         </label>

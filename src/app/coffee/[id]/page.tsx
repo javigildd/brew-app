@@ -141,8 +141,10 @@ export default function CoffeeDetailPage() {
         <ChevronLeft size={16} /> {t("back")}
       </button>
 
-      {/* Header */}
-      <div className="card overflow-hidden">
+      <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
+        {/* Header — left column on desktop */}
+        <div className="lg:sticky lg:top-6">
+          <div className="card overflow-hidden">
         {coffee.photo_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -223,10 +225,13 @@ export default function CoffeeDetailPage() {
             </button>
           </div>
         </div>
-      </div>
+          </div>
+        </div>
 
+        {/* Recipes + Brews — right column on desktop */}
+        <div className="mt-6 space-y-6 lg:mt-0">
       {/* Recipes */}
-      <section className="mt-6">
+      <section>
         <div className="mb-2 flex items-center justify-between">
           <h2 className="font-serif text-lg font-bold text-espresso">
             {t("detail_recipes")}
@@ -286,7 +291,7 @@ export default function CoffeeDetailPage() {
       </section>
 
       {/* Brews */}
-      <section className="mt-6">
+      <section>
         <div className="mb-2 flex items-center justify-between">
           <h2 className="font-serif text-lg font-bold text-espresso">
             {t("detail_brews")}
@@ -343,6 +348,8 @@ export default function CoffeeDetailPage() {
           })}
         </div>
       </section>
+        </div>
+      </div>
     </AppShell>
   );
 }

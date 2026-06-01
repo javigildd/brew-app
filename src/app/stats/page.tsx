@@ -102,10 +102,10 @@ export default function StatsPage() {
 
   return (
     <AppShell>
-      <h1 className="font-serif text-2xl font-bold text-espresso">
+      <h1 className="font-serif text-2xl font-bold text-espresso lg:text-3xl">
         {t("stats_title")}
       </h1>
-      <p className="mb-4 mt-1 text-sm text-coffee/70">{t("stats_intro")}</p>
+      <p className="mb-5 mt-1 text-sm text-muted">{t("stats_intro")}</p>
 
       {isLoading ? (
         <p className="py-10 text-center text-coffee/60">{t("loading")}</p>
@@ -133,23 +133,25 @@ export default function StatsPage() {
               </div>
             </div>
           ) : null}
-          <GroupList title={t("stats_by_origin")} items={data!.byOrigin} />
-          <GroupList title={t("stats_by_process")} items={data!.byProcess} />
-          <GroupList
-            title={t("stats_by_roast")}
-            items={data!.byRoast}
-            mapKey={mapOpt(ROAST_LEVELS)}
-          />
-          <GroupList
-            title={t("stats_by_purpose")}
-            items={data!.byPurpose}
-            mapKey={mapOpt(ROAST_PURPOSES)}
-          />
-          <GroupList
-            title={t("stats_by_drink")}
-            items={data!.byDrink}
-            mapKey={mapOpt(DRINK_TYPES)}
-          />
+          <div className="grid gap-4 lg:grid-cols-2">
+            <GroupList title={t("stats_by_origin")} items={data!.byOrigin} />
+            <GroupList title={t("stats_by_process")} items={data!.byProcess} />
+            <GroupList
+              title={t("stats_by_roast")}
+              items={data!.byRoast}
+              mapKey={mapOpt(ROAST_LEVELS)}
+            />
+            <GroupList
+              title={t("stats_by_purpose")}
+              items={data!.byPurpose}
+              mapKey={mapOpt(ROAST_PURPOSES)}
+            />
+            <GroupList
+              title={t("stats_by_drink")}
+              items={data!.byDrink}
+              mapKey={mapOpt(DRINK_TYPES)}
+            />
+          </div>
         </div>
       )}
     </AppShell>

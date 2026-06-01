@@ -18,10 +18,10 @@ const config: Config = {
         crema: token("--border"), // borders
         // text
         espresso: token("--fg"), // primary text
-        coffee: token("--brand"), // brand + (with opacity) secondary text
+        coffee: token("--fg"), // neutral; (with opacity) secondary text
         muted: token("--muted"), // secondary text
-        // brand / interactive
-        brand: token("--brand"),
+        // brand / interactive (single indigo accent system)
+        brand: token("--accent"),
         accent: token("--accent"),
         accentfg: token("--accent-fg"),
         terracotta: token("--accent"), // legacy alias → accent
@@ -31,7 +31,7 @@ const config: Config = {
         danger: token("--danger"),
         star: token("--star"),
         // legacy aliases
-        latte: token("--brand"),
+        latte: token("--accent"),
         bean: token("--fg"),
       },
       fontFamily: {

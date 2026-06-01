@@ -9,14 +9,14 @@ export default function LangToggle() {
       <button
         type="button"
         onClick={() => setLang("es")}
-        className={`px-2.5 py-1 transition-colors ${lang === "es" ? "bg-coffee text-cream" : "bg-surface text-muted hover:text-espresso"}`}
+        className={`px-2.5 py-1 transition-colors ${lang === "es" ? "bg-accent text-accentfg" : "bg-surface text-muted hover:text-espresso"}`}
       >
         ES
       </button>
       <button
         type="button"
         onClick={() => setLang("en")}
-        className={`px-2.5 py-1 transition-colors ${lang === "en" ? "bg-coffee text-cream" : "bg-surface text-muted hover:text-espresso"}`}
+        className={`px-2.5 py-1 transition-colors ${lang === "en" ? "bg-accent text-accentfg" : "bg-surface text-muted hover:text-espresso"}`}
       >
         EN
       </button>
