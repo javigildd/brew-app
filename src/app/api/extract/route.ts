@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { extractCoffeeFromImage, type ImageMediaType } from "@/lib/anthropic";
+import { extractCoffeeFromImage, NO_KEY, type ImageMediaType } from "@/lib/anthropic";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -27,11 +27,19 @@ export async function POST(req: Request) {
     }
     const bytes = Buffer.from(await file.arrayBuffer());
     const base64 = bytes.toString("base64");
-    const data = await extractCoffeeFromImage(base64, mediaType);
+    const apiKey = req.headers.get("x-anthropic-key");
+    const data = await extractCoffeeFromImage(base64, mediaType, apiKey);
     return NextResponse.json(data);
   } catch (err) {
-    console.error("extract error", err);
+    const status = (err as { status?: number })?.status;
     const message = err instanceof Error ? err.message : "Extraction failed";
+    if (message === NO_KEY) {
+      return NextResponse.json({ error: NO_KEY }, { status: 400 });
+    }
+    if (status === 401) {
+      return NextResponse.json({ error: "INVALID_KEY" }, { status: 401 });
+    }
+    console.error("extract error", err);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

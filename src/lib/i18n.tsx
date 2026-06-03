@@ -21,6 +21,35 @@ const DICT: Dict = {
   nav_add: { es: "Añadir", en: "Add" },
   nav_stats: { es: "Estadísticas", en: "Insights" },
   logout: { es: "Salir", en: "Log out" },
+  nav_settings: { es: "Ajustes", en: "Settings" },
+
+  // settings
+  settings_title: { es: "Ajustes", en: "Settings" },
+  set_api_title: { es: "API de Anthropic", en: "Anthropic API" },
+  set_api_desc: {
+    es: "Pon tu propia clave de Anthropic para leer las fotos de los paquetes. Se guarda solo en este navegador (nunca en la base de datos) y se usa en lugar de la del servidor.",
+    en: "Use your own Anthropic key to read package photos. It is stored only in this browser (never in the database) and used instead of the server's.",
+  },
+  set_api_get: { es: "Consigue una clave en", en: "Get a key at" },
+  set_api_label: { es: "Tu API key", en: "Your API key" },
+  set_api_save: { es: "Guardar y verificar", en: "Save & verify" },
+  set_api_remove: { es: "Quitar clave", en: "Remove key" },
+  set_api_saved: {
+    es: "Clave guardada en este navegador.",
+    en: "Key saved in this browser.",
+  },
+  set_api_none: {
+    es: "Sin clave propia: se usa la del servidor (si existe).",
+    en: "No personal key: the server's key is used (if any).",
+  },
+  set_api_empty: { es: "Introduce una clave.", en: "Enter a key." },
+  set_api_verifying: { es: "Verificando…", en: "Verifying…" },
+  set_api_valid: { es: "✓ La clave funciona y se ha guardado.", en: "✓ The key works and was saved." },
+  set_api_invalid: { es: "✗ Clave inválida. Revísala.", en: "✗ Invalid key. Please check it." },
+  set_api_error: { es: "No se pudo verificar (inténtalo de nuevo).", en: "Couldn't verify (try again)." },
+  set_appearance: { es: "Apariencia", en: "Appearance" },
+  set_theme: { es: "Tema", en: "Theme" },
+  set_language: { es: "Idioma", en: "Language" },
 
   // login
   login_title: { es: "Entrar en Brew", en: "Sign in to Brew" },

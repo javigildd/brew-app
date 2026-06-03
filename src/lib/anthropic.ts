@@ -6,13 +6,25 @@ import type { RoastLevel, RoastPurpose } from "./types";
 
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-4-6";
 
-let client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    throw new Error("ANTHROPIC_API_KEY is not set");
-  }
-  if (!client) client = new Anthropic();
-  return client;
+// Thrown when neither a per-request key nor a server env key is available.
+export const NO_KEY = "NO_ANTHROPIC_KEY";
+
+let envClient: Anthropic | null = null;
+function clientFor(apiKey?: string | null): Anthropic {
+  // A user-supplied (BYOK) key takes precedence over the server's env key.
+  if (apiKey) return new Anthropic({ apiKey });
+  if (!process.env.ANTHROPIC_API_KEY) throw new Error(NO_KEY);
+  if (!envClient) envClient = new Anthropic();
+  return envClient;
+}
+
+// Cheap call to confirm a key is valid (used by Settings → verify).
+export async function verifyApiKey(apiKey: string): Promise<void> {
+  await new Anthropic({ apiKey }).messages.create({
+    model: MODEL,
+    max_tokens: 1,
+    messages: [{ role: "user", content: "ping" }],
+  });
 }
 
 export type ImageMediaType =
@@ -166,8 +178,9 @@ const schema = z.object({
 export async function extractCoffeeFromImage(
   base64Data: string,
   mediaType: ImageMediaType,
+  apiKey?: string | null,
 ): Promise<ExtractedCoffee> {
-  const response = await getClient().messages.create({
+  const response = await clientFor(apiKey).messages.create({
     model: MODEL,
     max_tokens: 1024,
     system: [

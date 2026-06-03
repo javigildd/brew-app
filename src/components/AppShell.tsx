@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Coffee, Plus, BarChart3, LogOut } from "lucide-react";
+import { Coffee, Plus, BarChart3, LogOut, Settings } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { apiSend } from "@/lib/client";
@@ -64,9 +64,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <LangToggle />
             <ThemeToggle />
           </div>
-          <button onClick={logout} className="icon-btn" aria-label={t("logout")} title={t("logout")}>
-            <LogOut size={18} />
-          </button>
+          <div className="flex items-center gap-1">
+            <Link
+              href="/settings"
+              className={`icon-btn ${pathname.startsWith("/settings") ? "bg-sand text-espresso" : ""}`}
+              aria-label={t("nav_settings")}
+              title={t("nav_settings")}
+            >
+              <Settings size={18} />
+            </Link>
+            <button onClick={logout} className="icon-btn" aria-label={t("logout")} title={t("logout")}>
+              <LogOut size={18} />
+            </button>
+          </div>
         </div>
       </aside>
 
@@ -80,9 +90,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </span>
             <span className="hidden text-xs text-muted sm:inline">{t("tagline")}</span>
           </Link>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             <LangToggle />
             <ThemeToggle />
+            <Link href="/settings" className="icon-btn" aria-label={t("nav_settings")} title={t("nav_settings")}>
+              <Settings size={18} />
+            </Link>
             <button onClick={logout} className="icon-btn" aria-label={t("logout")} title={t("logout")}>
               <LogOut size={18} />
             </button>

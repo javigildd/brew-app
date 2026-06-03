@@ -11,6 +11,7 @@ import {
   base64ToBlob,
   fileToResizedBase64,
 } from "@/lib/client";
+import { apiKeyHeaders } from "@/lib/settings";
 import type { ExtractedCoffee } from "@/lib/anthropic";
 import type { Coffee } from "@/lib/types";
 
@@ -37,7 +38,11 @@ export default function AddPage() {
       const blob = base64ToBlob(base64, mediaType);
       const form = new FormData();
       form.append("image", blob, "bag.jpg");
-      const res = await fetch("/api/extract", { method: "POST", body: form });
+      const res = await fetch("/api/extract", {
+        method: "POST",
+        headers: apiKeyHeaders(),
+        body: form,
+      });
       if (!res.ok) throw new Error("extract failed");
       const data: ExtractedCoffee = await res.json();
       setSeed({
