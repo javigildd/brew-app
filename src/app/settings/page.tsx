@@ -73,9 +73,7 @@ export default function SettingsPage() {
 
   return (
     <AppShell>
-      <h1 className="mb-5 font-serif text-2xl font-bold text-espresso lg:text-3xl">
-        {t("settings_title")}
-      </h1>
+      <h1 className="page-title mb-6">{t("settings_title")}</h1>
 
       <div className="space-y-4">
         {/* Anthropic API key */}
@@ -84,7 +82,7 @@ export default function SettingsPage() {
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/10 text-accent">
               <KeyRound size={16} />
             </span>
-            <h2 className="font-serif text-lg font-bold text-espresso">
+            <h2 className="font-serif text-lg font-semibold text-espresso">
               {t("set_api_title")}
             </h2>
           </div>
@@ -140,7 +138,7 @@ export default function SettingsPage() {
 
         {/* Appearance */}
         <section className="card p-5">
-          <h2 className="mb-4 font-serif text-lg font-bold text-espresso">
+          <h2 className="mb-4 font-serif text-lg font-semibold text-espresso">
             {t("set_appearance")}
           </h2>
           <div className="flex items-center justify-between border-b border-crema/60 py-2.5">

@@ -34,10 +34,10 @@ export function LikeButtons({
           key={v}
           type="button"
           onClick={() => onChange(value === v ? null : v)}
-          className={`inline-flex items-center gap-1.5 rounded-full font-semibold transition ${pad} ${
+          className={`inline-flex items-center gap-1.5 rounded-lg font-semibold transition ${pad} ${
             value === v
               ? on
-              : "border border-crema bg-surface text-muted hover:text-espresso"
+              : "border border-crema bg-surface text-muted hover:bg-sand/60 hover:text-espresso"
           }`}
         >
           <Icon size={ic} /> {t(key)}
@@ -90,7 +90,7 @@ export function LikeBadge({ value }: { value: Verdict | null }) {
   } as const;
   const { cls, Icon, key } = map[String(value) as "1" | "0" | "-1"];
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${cls}`}>
+    <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold ${cls}`}>
       <Icon size={12} /> {t(key)}
     </span>
   );

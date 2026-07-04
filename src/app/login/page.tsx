@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Coffee } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import LangToggle from "@/components/LangToggle";
 import { ThemeToggle } from "@/components/ThemeProvider";
@@ -37,12 +38,17 @@ export default function LoginPage() {
         <LangToggle />
         <ThemeToggle />
       </div>
-      <div className="w-full max-w-sm">
-        <div className="mb-8 text-center">
-          <h1 className="font-serif text-5xl font-bold text-espresso">Brew</h1>
-          <p className="mt-1 text-sm text-coffee/70">{t("tagline")}</p>
+      <div className="w-full max-w-[22rem] animate-rise">
+        <div className="mb-10 flex flex-col items-center text-center">
+          <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-espresso text-cream shadow-btn">
+            <Coffee size={24} strokeWidth={2.2} />
+          </span>
+          <h1 className="font-serif text-4xl font-bold tracking-tight text-espresso">
+            Brew
+          </h1>
+          <p className="mt-2 text-sm text-muted">{t("tagline")}</p>
         </div>
-        <form onSubmit={submit} className="card space-y-4 p-6">
+        <form onSubmit={submit} className="space-y-4">
           <div>
             <label className="label">{t("login_password")}</label>
             <input

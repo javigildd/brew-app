@@ -20,9 +20,10 @@ const config: Config = {
         espresso: token("--fg"), // primary text
         coffee: token("--fg"), // neutral; (with opacity) secondary text
         muted: token("--muted"), // secondary text
-        // brand / interactive (single indigo accent system)
+        // brand / interactive (copper accent system)
         brand: token("--accent"),
         accent: token("--accent"),
+        accent2: token("--accent-2"),
         accentfg: token("--accent-fg"),
         terracotta: token("--accent"), // legacy alias → accent
         // semantic states
@@ -36,25 +37,36 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
-        serif: ["var(--font-serif)", "Georgia", "Cambria", "serif"],
+        // "serif" is the display slot — mapped to Space Grotesk
+        serif: ["var(--font-display)", "var(--font-sans)", "sans-serif"],
       },
       boxShadow: {
-        // Soft UI Evolution: softer than flat, clearer than neumorphism
-        soft: "0 1px 2px rgb(28 25 23 / 0.04), 0 2px 8px rgb(28 25 23 / 0.06)",
-        card: "0 1px 3px rgb(28 25 23 / 0.05), 0 10px 30px -12px rgb(28 25 23 / 0.12)",
-        pop: "0 8px 30px -8px rgb(28 25 23 / 0.18)",
+        // Near-flat: hairlines do the work, shadows only whisper
+        soft: "0 1px 2px rgb(0 0 0 / 0.03)",
+        card: "0 1px 2px rgb(0 0 0 / 0.04), 0 2px 8px -2px rgb(0 0 0 / 0.04)",
+        pop: "0 2px 4px rgb(0 0 0 / 0.05), 0 8px 24px -8px rgb(0 0 0 / 0.12)",
+        btn: "0 1px 2px rgb(0 0 0 / 0.1)",
+        "btn-hover": "0 2px 8px rgb(0 0 0 / 0.12)",
+        inset: "inset 0 1px 2px rgb(0 0 0 / 0.03)",
+        dock: "0 -1px 0 rgb(0 0 0 / 0.03)",
       },
       borderRadius: {
-        xl2: "1.25rem",
+        xl2: "0.875rem",
+        xl3: "1.25rem",
       },
       keyframes: {
         "fade-in": {
           from: { opacity: "0", transform: "translateY(4px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        rise: {
+          from: { opacity: "0", transform: "translateY(10px) scale(0.99)" },
+          to: { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
       },
       animation: {
-        "fade-in": "fade-in 0.25s ease-out both",
+        "fade-in": "fade-in 0.3s ease-out both",
+        rise: "rise 0.45s cubic-bezier(0.22,1,0.36,1) both",
       },
     },
   },

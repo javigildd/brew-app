@@ -123,7 +123,7 @@ export default function CoffeeDetailPage() {
     };
     return (
       <AppShell>
-        <h1 className="mb-4 font-serif text-2xl font-bold text-espresso">
+        <h1 className="mb-4 font-serif text-2xl font-semibold tracking-tight text-espresso">
           {t("edit")}
         </h1>
         <CoffeeForm
@@ -160,7 +160,7 @@ export default function CoffeeDetailPage() {
         <div className="space-y-3 p-4">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h1 className="font-serif text-2xl font-bold leading-tight text-espresso">
+              <h1 className="font-serif text-[1.6rem] font-semibold leading-tight tracking-tight text-espresso">
                 {coffee.name || t("none")}
               </h1>
               <p className="text-coffee/70">{coffee.roaster}</p>
@@ -255,7 +255,7 @@ export default function CoffeeDetailPage() {
       {/* Recipes */}
       <section>
         <div className="mb-2 flex items-center justify-between">
-          <h2 className="font-serif text-lg font-bold text-espresso">
+          <h2 className="font-serif text-lg font-semibold text-espresso">
             {t("detail_recipes")}
           </h2>
           {!showRecipe ? (
@@ -315,7 +315,7 @@ export default function CoffeeDetailPage() {
       {/* Brews */}
       <section>
         <div className="mb-2 flex items-center justify-between">
-          <h2 className="font-serif text-lg font-bold text-espresso">
+          <h2 className="font-serif text-lg font-semibold text-espresso">
             {t("detail_brews")}
           </h2>
           {!showBrew ? (

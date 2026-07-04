@@ -5,21 +5,21 @@ import { useI18n } from "@/lib/i18n";
 export default function LangToggle() {
   const { lang, setLang } = useI18n();
   return (
-    <div className="inline-flex overflow-hidden rounded-full border border-crema text-xs font-semibold">
-      <button
-        type="button"
-        onClick={() => setLang("es")}
-        className={`px-2.5 py-1 transition-colors ${lang === "es" ? "bg-accent text-accentfg" : "bg-surface text-muted hover:text-espresso"}`}
-      >
-        ES
-      </button>
-      <button
-        type="button"
-        onClick={() => setLang("en")}
-        className={`px-2.5 py-1 transition-colors ${lang === "en" ? "bg-accent text-accentfg" : "bg-surface text-muted hover:text-espresso"}`}
-      >
-        EN
-      </button>
+    <div className="inline-flex items-center gap-0.5 rounded-lg bg-sand p-0.5 text-xs font-semibold">
+      {(["es", "en"] as const).map((l) => (
+        <button
+          key={l}
+          type="button"
+          onClick={() => setLang(l)}
+          className={`rounded-[0.4rem] px-2 py-1 uppercase transition-colors duration-150 ${
+            lang === l
+              ? "bg-surface text-espresso shadow-soft"
+              : "text-muted hover:text-espresso"
+          }`}
+        >
+          {l}
+        </button>
+      ))}
     </div>
   );
 }

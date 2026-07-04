@@ -37,9 +37,9 @@ export default function HomePage() {
       {isLoading ? (
         <p className="py-10 text-center text-coffee/60">{t("loading")}</p>
       ) : coffees.length === 0 ? (
-        <div className="flex flex-col items-center gap-4 py-16 text-center animate-fade-in">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-accent/10 text-accent">
-            <CoffeeIcon size={36} />
+        <div className="flex flex-col items-center gap-5 py-20 text-center animate-rise">
+          <div className="flex h-20 w-20 items-center justify-center rounded-2xl border border-crema bg-surface text-muted shadow-soft">
+            <CoffeeIcon size={34} strokeWidth={1.6} />
           </div>
           <p className="max-w-xs text-muted">{t("home_empty")}</p>
           <Link href="/add" className="btn-accent">
@@ -48,22 +48,20 @@ export default function HomePage() {
         </div>
       ) : (
         <div className="space-y-5">
-          <div className="flex items-end justify-between gap-4">
+          <div className="flex items-center justify-between gap-4">
             <div>
-              <h1 className="font-serif text-2xl font-bold text-espresso lg:text-3xl">
-                {t("nav_home")}
-              </h1>
-              <p className="text-sm text-muted">
+              <h1 className="page-title">{t("nav_home")}</h1>
+              <p className="mt-0.5 text-sm text-muted">
                 {coffees.length} {t("stats_total_coffees")}
               </p>
             </div>
-            <Link href="/add" className="btn-accent hidden lg:inline-flex">
+            <Link href="/add" className="btn-accent hidden md:inline-flex">
               <Plus size={16} /> {t("nav_add")}
             </Link>
           </div>
           <div className="relative">
             <Search
-              size={16}
+              size={15}
               className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
             />
             <input
@@ -73,7 +71,7 @@ export default function HomePage() {
               onChange={(e) => setQ(e.target.value)}
             />
           </div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="stagger card divide-y divide-crema/70 overflow-hidden">
             {filtered.map((c) => (
               <CoffeeCard key={c.id} coffee={c} />
             ))}

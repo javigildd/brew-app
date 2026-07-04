@@ -44,8 +44,8 @@ function GroupList({
   const { t, lang } = useI18n();
   if (!items.length) return null;
   return (
-    <section className="card p-4">
-      <h2 className="mb-3 font-serif text-lg font-bold text-espresso">{title}</h2>
+    <section className="card p-5">
+      <h2 className="mb-4 font-serif text-lg font-semibold text-espresso">{title}</h2>
       <div className="space-y-2.5">
         {items.map((g) => {
           const label = mapKey ? mapKey(g.key, lang) : g.key;
@@ -70,9 +70,9 @@ function GroupList({
                   </span>
                 </span>
               </div>
-              <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-sand">
+              <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-sand">
                 <div
-                  className="h-full rounded-full bg-accent/70"
+                  className="h-full rounded-full bg-espresso/75 transition-[width] duration-500 ease-out"
                   style={{ width: `${Math.max(4, Math.min(100, pct))}%` }}
                 />
               </div>
@@ -104,10 +104,8 @@ export default function StatsPage() {
 
   return (
     <AppShell>
-      <h1 className="font-serif text-2xl font-bold text-espresso lg:text-3xl">
-        {t("stats_title")}
-      </h1>
-      <p className="mb-5 mt-1 text-sm text-muted">{t("stats_intro")}</p>
+      <h1 className="page-title">{t("stats_title")}</h1>
+      <p className="mb-6 mt-1 text-sm text-muted">{t("stats_intro")}</p>
 
       {isLoading ? (
         <p className="py-10 text-center text-coffee/60">{t("loading")}</p>
@@ -116,26 +114,26 @@ export default function StatsPage() {
       ) : (
         <div className="space-y-4">
           {data ? (
-            <div className="flex gap-3">
-              <div className="card flex-1 p-3 text-center">
-                <div className="text-2xl font-bold text-espresso">
-                  {data.totals.coffees}
-                </div>
-                <div className="text-xs text-coffee/60">
+            <div className="stagger grid grid-cols-2 gap-3">
+              <div className="card p-5">
+                <div className="text-[13px] font-medium text-muted">
                   {t("stats_total_coffees")}
                 </div>
-              </div>
-              <div className="card flex-1 p-3 text-center">
-                <div className="text-2xl font-bold text-espresso">
-                  {data.totals.brews}
+                <div className="mt-1 font-serif text-3xl font-bold tracking-tight text-espresso">
+                  {data.totals.coffees}
                 </div>
-                <div className="text-xs text-coffee/60">
+              </div>
+              <div className="card p-5">
+                <div className="text-[13px] font-medium text-muted">
                   {t("stats_total_brews")}
+                </div>
+                <div className="mt-1 font-serif text-3xl font-bold tracking-tight text-espresso">
+                  {data.totals.brews}
                 </div>
               </div>
             </div>
           ) : null}
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="stagger grid gap-4 lg:grid-cols-2">
             <GroupList title={t("stats_by_country")} items={data!.byCountry} />
             <GroupList title={t("stats_by_region")} items={data!.byRegion} />
             <GroupList title={t("stats_by_process")} items={data!.byProcess} />

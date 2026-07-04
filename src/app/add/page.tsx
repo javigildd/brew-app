@@ -80,9 +80,7 @@ export default function AddPage() {
 
   return (
     <AppShell>
-      <h1 className="mb-4 font-serif text-2xl font-bold text-espresso">
-        {t("add_title")}
-      </h1>
+      <h1 className="page-title mb-5">{t("add_title")}</h1>
 
       <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
         <div className="mb-5 lg:mb-0 lg:sticky lg:top-6">
@@ -125,9 +123,9 @@ export default function AddPage() {
             ) : null}
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-3 py-6 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 text-accent">
-              <Camera size={28} />
+          <div className="flex flex-col items-center gap-3.5 py-8 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-crema bg-sand/60 text-muted">
+              <Camera size={26} strokeWidth={1.8} />
             </div>
             <p className="text-sm text-muted">{t("add_take_photo")}</p>
             <button

@@ -2,36 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Design tokens — "Midnight Indigo": slate neutrals + indigo accent ── */
+/* ─────────────────────────────────────────────────────────────
+   Design tokens — "Graphite"
+   Minimal precision palette: pure neutrals, near-black ink,
+   monochrome interactive elements. Light and dark are honest
+   white/black modes, not tinted themes.
+   ───────────────────────────────────────────────────────────── */
 :root {
-  --font-serif: "Georgia", "Cambria", "Times New Roman", serif;
-
-  --bg: 248 250 252; /* slate-50 */
+  --bg: 250 250 250; /* zinc-50 */
   --surface: 255 255 255;
-  --surface-2: 241 245 249; /* slate-100 */
-  --border: 226 232 240; /* slate-200 */
-  --fg: 15 23 42; /* slate-900 */
-  --muted: 100 116 139; /* slate-500 */
-  --accent: 99 102 241; /* indigo-500 */
-  --accent-fg: 255 255 255;
-  --positive: 22 163 74; /* green-600 */
-  --danger: 220 38 38; /* red-600 */
-  --star: 245 158 11; /* amber-500 */
+  --surface-2: 244 244 245; /* zinc-100 */
+  --border: 228 228 231; /* zinc-200 */
+  --fg: 24 24 27; /* zinc-900 ink */
+  --muted: 113 113 122; /* zinc-500 */
+  --accent: 24 24 27; /* monochrome: interactive = ink */
+  --accent-2: 63 63 70;
+  --accent-fg: 250 250 250;
+  --positive: 22 163 74;
+  --danger: 220 38 38;
+  --star: 234 152 8; /* amber */
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   color-scheme: light;
 }
 
 .dark {
-  --bg: 11 17 32; /* deep navy */
-  --surface: 19 28 46;
-  --surface-2: 30 41 59; /* slate-800 */
-  --border: 39 51 73;
-  --fg: 226 232 240; /* slate-200 */
-  --muted: 148 163 184; /* slate-400 */
-  --accent: 129 140 248; /* indigo-400 */
-  --accent-fg: 11 17 32;
-  --positive: 34 197 94;
+  --bg: 10 10 11; /* near black */
+  --surface: 18 18 20;
+  --surface-2: 31 31 35;
+  --border: 43 43 48;
+  --fg: 244 244 245; /* zinc-100 */
+  --muted: 143 143 152;
+  --accent: 244 244 245; /* monochrome: interactive = white */
+  --accent-2: 200 200 206;
+  --accent-fg: 17 17 19;
+  --positive: 74 222 128;
   --danger: 248 113 113;
-  --star: 251 191 36;
+  --star: 250 204 21;
+  --select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238f8f98' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   color-scheme: dark;
 }
 
@@ -40,44 +47,113 @@ body {
   background-color: rgb(var(--bg));
   color: rgb(var(--fg));
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   transition:
-    background-color 0.25s ease,
-    color 0.25s ease;
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+::selection {
+  background: rgb(var(--fg) / 0.12);
+}
+
+/* Display face (Space Grotesk via --font-display) */
+.font-serif {
+  letter-spacing: -0.02em;
+}
+
+/* Native selects: quiet chevron instead of OS chrome */
+select.input {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: var(--select-chevron);
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  padding-right: 2.25rem;
+}
+
+/* Quiet scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--border)) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgb(var(--border));
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold tracking-tight transition-all duration-150 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream disabled:opacity-50 disabled:pointer-events-none;
   }
-  .btn-primary {
-    @apply btn bg-accent text-accentfg shadow-sm hover:opacity-90;
-  }
+  /* Solid ink button — black in light, white in dark */
+  .btn-primary,
   .btn-accent {
-    @apply btn bg-accent text-accentfg shadow-sm hover:opacity-90;
+    @apply btn bg-accent text-accentfg shadow-btn hover:bg-accent/90;
   }
   .btn-ghost {
     @apply btn bg-transparent text-muted hover:bg-sand hover:text-espresso;
   }
   .btn-outline {
-    @apply btn border border-crema bg-surface text-espresso hover:bg-sand;
+    @apply btn border border-crema bg-surface text-espresso shadow-soft hover:bg-sand/60;
   }
+  /* Flat card: hairline border, whisper of shadow */
   .card {
     @apply rounded-xl2 border border-crema bg-surface shadow-card;
   }
   .label {
-    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted;
+    @apply mb-1.5 block text-[13px] font-medium text-muted;
   }
+  /* Filled input: quiet until focused */
   .input {
-    @apply w-full rounded-xl border border-crema bg-surface px-3.5 py-2.5 text-sm text-espresso outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/25 placeholder:text-muted/60;
+    @apply w-full rounded-lg border border-crema/70 bg-sand/50 px-3.5 py-2.5 text-sm text-espresso outline-none transition duration-150 focus:border-crema focus:bg-surface focus:ring-4 focus:ring-accent/5 placeholder:text-muted/60;
   }
   .chip {
-    @apply inline-flex items-center rounded-full bg-sand px-2.5 py-1 text-xs font-medium text-muted;
+    @apply inline-flex items-center rounded-md bg-sand px-2 py-0.5 text-xs font-medium text-muted;
   }
   .icon-btn {
-    @apply inline-flex h-9 w-9 items-center justify-center rounded-full text-muted transition hover:bg-sand hover:text-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50;
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted transition-colors duration-150 hover:bg-sand hover:text-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40;
+  }
+  /* Frosted surface for bars */
+  .glass {
+    @apply border-crema/80 bg-cream/85 backdrop-blur-lg;
+  }
+  .page-title {
+    @apply font-serif text-2xl font-bold tracking-tight text-espresso lg:text-[2rem];
+  }
+}
+
+/* Subtle staggered entrance for lists */
+.stagger > * {
+  animation: rise 0.3s ease-out both;
+}
+.stagger > *:nth-child(1) { animation-delay: 0.015s; }
+.stagger > *:nth-child(2) { animation-delay: 0.045s; }
+.stagger > *:nth-child(3) { animation-delay: 0.075s; }
+.stagger > *:nth-child(4) { animation-delay: 0.105s; }
+.stagger > *:nth-child(5) { animation-delay: 0.135s; }
+.stagger > *:nth-child(6) { animation-delay: 0.165s; }
+.stagger > *:nth-child(7) { animation-delay: 0.195s; }
+.stagger > *:nth-child(n + 8) { animation-delay: 0.22s; }
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

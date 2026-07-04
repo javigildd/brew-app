@@ -9,6 +9,19 @@ import { apiSend } from "@/lib/client";
 import LangToggle from "./LangToggle";
 import { ThemeToggle } from "./ThemeProvider";
 
+function Wordmark() {
+  return (
+    <span className="flex items-center gap-2.5">
+      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-espresso text-cream">
+        <Coffee size={15} strokeWidth={2.4} />
+      </span>
+      <span className="font-serif text-lg font-bold tracking-tight text-espresso">
+        Brew
+      </span>
+    </span>
+  );
+}
+
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const { t } = useI18n();
   const pathname = usePathname();
@@ -29,105 +42,82 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <div className="min-h-dvh lg:flex">
-      {/* ── Desktop sidebar ── */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-crema bg-surface px-4 py-6 lg:flex">
-        <Link href="/" className="mb-8 flex items-center gap-2.5 px-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-accentfg">
-            <Coffee size={20} />
-          </span>
-          <span className="font-serif text-2xl font-bold tracking-tight text-espresso">
-            Brew
-          </span>
-        </Link>
-        <nav className="flex flex-col gap-1">
-          {nav.map(({ href, label, Icon }) => {
-            const active = isActive(href);
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors ${
-                  active
-                    ? "bg-accent/10 text-accent"
-                    : "text-muted hover:bg-sand hover:text-espresso"
-                }`}
-              >
-                <Icon size={20} strokeWidth={active ? 2.4 : 2} />
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="mt-auto flex items-center justify-between gap-2 border-t border-crema pt-4">
-          <div className="flex items-center gap-1.5">
-            <LangToggle />
-            <ThemeToggle />
+    <div className="flex min-h-dvh flex-col">
+      {/* ── Top bar ── */}
+      <header className="glass sticky top-0 z-30 border-b">
+        <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-4 px-4 lg:px-8">
+          <div className="flex items-center gap-7">
+            <Link href="/" aria-label="Brew">
+              <Wordmark />
+            </Link>
+            {/* Desktop nav */}
+            <nav className="hidden items-center gap-1 md:flex">
+              {nav.map(({ href, label }) => {
+                const active = isActive(href);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors duration-150 ${
+                      active
+                        ? "bg-sand text-espresso"
+                        : "text-muted hover:text-espresso"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
+            </nav>
           </div>
           <div className="flex items-center gap-1">
+            <LangToggle />
+            <ThemeToggle />
             <Link
               href="/settings"
               className={`icon-btn ${pathname.startsWith("/settings") ? "bg-sand text-espresso" : ""}`}
               aria-label={t("nav_settings")}
               title={t("nav_settings")}
             >
-              <Settings size={18} />
+              <Settings size={17} />
             </Link>
-            <button onClick={logout} className="icon-btn" aria-label={t("logout")} title={t("logout")}>
-              <LogOut size={18} />
+            <button
+              onClick={logout}
+              className="icon-btn"
+              aria-label={t("logout")}
+              title={t("logout")}
+            >
+              <LogOut size={17} />
             </button>
           </div>
         </div>
-      </aside>
+      </header>
 
-      {/* ── Main column ── */}
-      <div className="flex min-h-dvh flex-1 flex-col lg:pl-64">
-        {/* Mobile top bar */}
-        <header className="sticky top-0 z-20 flex items-center justify-between border-b border-crema/70 bg-cream/80 px-4 py-3 backdrop-blur-md lg:hidden">
-          <Link href="/" className="flex items-baseline gap-2">
-            <span className="font-serif text-2xl font-bold tracking-tight text-espresso">
-              Brew
-            </span>
-            <span className="hidden text-xs text-muted sm:inline">{t("tagline")}</span>
-          </Link>
-          <div className="flex items-center gap-1">
-            <LangToggle />
-            <ThemeToggle />
-            <Link href="/settings" className="icon-btn" aria-label={t("nav_settings")} title={t("nav_settings")}>
-              <Settings size={18} />
+      <main className="mx-auto w-full max-w-5xl flex-1 animate-fade-in px-4 py-6 pb-28 md:pb-12 lg:px-8 lg:py-10">
+        {children}
+      </main>
+
+      {/* ── Mobile tab bar ── */}
+      <nav
+        className="glass fixed inset-x-0 bottom-0 z-30 flex items-stretch justify-around border-t shadow-dock md:hidden"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        {nav.map(({ href, label, Icon }) => {
+          const active = isActive(href);
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors duration-150 ${
+                active ? "text-espresso" : "text-muted"
+              }`}
+            >
+              <Icon size={21} strokeWidth={active ? 2.4 : 2} />
+              {label}
             </Link>
-            <button onClick={logout} className="icon-btn" aria-label={t("logout")} title={t("logout")}>
-              <LogOut size={18} />
-            </button>
-          </div>
-        </header>
-
-        <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-5 pb-28 lg:max-w-5xl lg:px-10 lg:py-9 lg:pb-12">
-          {children}
-        </main>
-
-        {/* Mobile bottom nav */}
-        <nav className="fixed inset-x-0 bottom-0 z-20 flex items-stretch justify-around border-t border-crema/70 bg-cream/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden">
-          {nav.map(({ href, label, Icon }) => {
-            const active = isActive(href);
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`relative flex flex-1 flex-col items-center gap-1 py-2.5 text-xs font-semibold transition-colors ${
-                  active ? "text-accent" : "text-muted hover:text-espresso"
-                }`}
-              >
-                {active ? (
-                  <span className="absolute top-0 h-0.5 w-8 rounded-full bg-accent" />
-                ) : null}
-                <Icon size={22} strokeWidth={active ? 2.4 : 2} />
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
+          );
+        })}
+      </nav>
     </div>
   );
 }
