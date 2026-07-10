@@ -19,6 +19,12 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Brew — coffee journal",
   description: "Scan coffee bags, rate them, save recipes.",
+  applicationName: "Brew",
+  appleWebApp: {
+    capable: true,
+    title: "Brew",
+    statusBarStyle: "default",
+  },
 };
 
 export const viewport: Viewport = {
