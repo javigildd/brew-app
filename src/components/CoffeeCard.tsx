@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Coffee as CoffeeIcon, Star, ChevronRight } from "lucide-react";
+import { Coffee as CoffeeIcon, Star, ChevronRight, Funnel } from "lucide-react";
 import type { Coffee } from "@/lib/types";
 import { ROAST_LEVELS, ROAST_PURPOSES, optLabel } from "@/lib/types";
 import { useI18n } from "@/lib/i18n";
@@ -37,6 +37,14 @@ export default function CoffeeCard({ coffee }: { coffee: Coffee }) {
         <div className="flex items-center justify-between gap-3">
           <p className="truncate text-[15px] font-semibold tracking-tight text-espresso">
             {coffee.name || t("none")}
+            {coffee.in_hopper ? (
+              <span
+                title={t("hopper_title")}
+                className="ml-2 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full bg-accent align-[-3px] text-accentfg"
+              >
+                <Funnel size={10} strokeWidth={2.4} />
+              </span>
+            ) : null}
             {coffee.roaster ? (
               <span className="ml-2 font-normal text-muted">
                 {coffee.roaster}

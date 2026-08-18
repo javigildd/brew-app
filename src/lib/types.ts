@@ -29,6 +29,7 @@ export interface Coffee {
   rating: number | null;
   verdict: Verdict | null;
   comments: string | null;
+  in_hopper: boolean;
 }
 
 export interface Recipe {

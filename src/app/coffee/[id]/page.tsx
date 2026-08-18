@@ -1,9 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import useSWR from "swr";
-import { ChevronLeft, Pencil, Milk, Snowflake } from "lucide-react";
+import {
+  ChevronLeft,
+  Pencil,
+  Milk,
+  Snowflake,
+  RotateCw,
+  Funnel,
+  X,
+} from "lucide-react";
 import AppShell from "@/components/AppShell";
 import CoffeeForm, { type CoffeeFormValues } from "@/components/CoffeeForm";
 import BrewForm from "@/components/BrewForm";
@@ -52,6 +60,43 @@ export default function CoffeeDetailPage() {
   const [editing, setEditing] = useState(false);
   const [showBrew, setShowBrew] = useState(false);
   const [showRecipe, setShowRecipe] = useState(false);
+  const [rotating, setRotating] = useState(false);
+  const [hopperBusy, setHopperBusy] = useState(false);
+  const [showPhoto, setShowPhoto] = useState(false);
+
+  // Close the full-size photo with Escape.
+  useEffect(() => {
+    if (!showPhoto) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowPhoto(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showPhoto]);
+
+  const rotatePhoto = async () => {
+    if (rotating) return;
+    setRotating(true);
+    try {
+      await apiSend(`/api/coffees/${id}/rotate`, "POST");
+      mutate();
+    } finally {
+      setRotating(false);
+    }
+  };
+
+  const toggleHopper = async () => {
+    if (hopperBusy || !data) return;
+    setHopperBusy(true);
+    try {
+      await apiSend("/api/hopper", "POST", {
+        coffee_id: data.coffee.in_hopper ? null : id,
+      });
+      mutate();
+    } finally {
+      setHopperBusy(false);
+    }
+  };
 
   if (isLoading || !data) {
     return (
@@ -150,12 +195,25 @@ export default function CoffeeDetailPage() {
         <div className="lg:sticky lg:top-6">
           <div className="card overflow-hidden">
         {coffee.photo_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={coffee.photo_url}
-            alt={coffee.name ?? "coffee"}
-            className="max-h-72 w-full object-cover"
-          />
+          <div className="relative">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={coffee.photo_url}
+              alt={coffee.name ?? "coffee"}
+              title={t("view_photo")}
+              onClick={() => setShowPhoto(true)}
+              className="max-h-72 w-full cursor-zoom-in object-cover"
+            />
+            <button
+              onClick={rotatePhoto}
+              disabled={rotating}
+              title={t("rotate_photo")}
+              aria-label={t("rotate_photo")}
+              className="absolute bottom-2 right-2 inline-flex h-8 w-8 items-center justify-center rounded-full border border-crema bg-surface/85 text-muted backdrop-blur transition-colors hover:text-espresso disabled:opacity-60"
+            >
+              <RotateCw size={14} className={rotating ? "animate-spin" : ""} />
+            </button>
+          </div>
         ) : null}
         <div className="space-y-3 p-4">
           <div className="flex items-start justify-between gap-3">
@@ -237,6 +295,15 @@ export default function CoffeeDetailPage() {
               “{coffee.comments}”
             </p>
           ) : null}
+
+          <button
+            onClick={toggleHopper}
+            disabled={hopperBusy}
+            className={`w-full ${coffee.in_hopper ? "btn-accent" : "btn-outline"}`}
+          >
+            <Funnel size={15} />
+            {coffee.in_hopper ? t("hopper_title") : t("hopper_set")}
+          </button>
 
           <div className="flex gap-2 pt-1">
             <button onClick={() => setEditing(true)} className="btn-outline flex-1">
@@ -372,6 +439,29 @@ export default function CoffeeDetailPage() {
       </section>
         </div>
       </div>
+
+      {/* Full-size photo overlay */}
+      {showPhoto && coffee.photo_url ? (
+        <div
+          className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-black/85 p-4 backdrop-blur-sm animate-fade-in"
+          onClick={() => setShowPhoto(false)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <button
+            aria-label={t("back")}
+            className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+          >
+            <X size={18} />
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={coffee.photo_url}
+            alt={coffee.name ?? "coffee"}
+            className="max-h-full max-w-full rounded-lg object-contain shadow-pop"
+          />
+        </div>
+      ) : null}
     </AppShell>
   );
 }

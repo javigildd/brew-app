@@ -69,6 +69,12 @@ const DICT: Dict = {
   },
   loading: { es: "Cargando…", en: "Loading…" },
 
+  // hopper
+  hopper_title: { es: "En la tolva", en: "In the hopper" },
+  hopper_set: { es: "Poner en la tolva", en: "Put in the hopper" },
+  rotate_photo: { es: "Girar foto", en: "Rotate photo" },
+  view_photo: { es: "Ver foto completa", en: "View full photo" },
+
   // add flow
   add_title: { es: "Añadir café", en: "Add coffee" },
   add_take_photo: {

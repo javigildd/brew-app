@@ -31,8 +31,12 @@ create table if not exists public.coffees (
   rating          smallint,                              -- overall 1..5 (nullable)
   liked           boolean,                               -- legacy thumbs (use verdict)
   verdict         smallint,                              -- 1 liked / 0 neutral / -1 disliked / null
-  comments        text
+  comments        text,
+  in_hopper       boolean not null default false         -- currently loaded in the grinder hopper (at most one)
 );
+
+-- Migration for databases created before in_hopper existed.
+alter table public.coffees add column if not exists in_hopper boolean not null default false;
 
 -- ── Recipes: how to brew (reusable, optionally tied to a coffee) ──
 create table if not exists public.recipes (
